@@ -1,18 +1,15 @@
 package models;
 
-import java.util.List;
-
 public class OrderCreateField {
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String metroStation;
-    private String phone;
-    private int rentTime;
-    private String deliveryDate;
-    private String comment;
-    private String[] coloroptional;
-
+    private final String firstName;
+    private final String lastName;
+    private final String address;
+    private final String metroStation;
+    private final String phone;
+    private final int rentTime;
+    private final String deliveryDate;
+    private final String comment;
+    private final String[] coloroptional;
 
     public OrderCreateField(String firstName, String lastName, String address, String metroStation, String phone, int rentTime, String deliveryDate, String comment, String[] coloroptional) {
         this.firstName = firstName;

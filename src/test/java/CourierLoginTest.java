@@ -1,54 +1,46 @@
-import io.restassured.RestAssured;
+import annotations.BaseTest;
 import io.restassured.response.Response;
 import models.CourierCreate;
 import org.example.steps.CourierSteps;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.example.utils.Utils.randomString;
 
-public class CourierLoginTest {
+public class CourierLoginTest extends BaseTest {
 
-    @Before
-    public void setUp() {
-        RestAssured.baseURI= "https://qa-scooter.praktikum-services.ru/";
-    }
-
-    private CourierSteps newCoruers = new CourierSteps();
+    private final CourierSteps newCoruers = new CourierSteps();
     private CourierCreate courier = new CourierCreate("Luka", "3456", "sdfgh");
     private int id;
-    private boolean deleteIdAfterTest=true;
-
+    private boolean deleteIdAfterTest = true;
 
     @Test
-    public void checkAuthorization(){
+    public void checkAuthorization() {
         CourierSteps.createCourier(courier);
-        id= CourierSteps.getIdCourier(courier);
+        id = CourierSteps.getIdCourier(courier);
     }
 
     @Test
-    public void checkRequiredFieldsLogin(){
+    public void checkRequiredFieldsLogin() {
+        deleteIdAfterTest = false;
         courier = new CourierCreate()
                 .setPassword("Luka");
         Response response = CourierSteps.postLogin(courier);
-        CourierSteps.checkResponseNegative(response,400, "Недостаточно данных для входа");
-        deleteIdAfterTest=false;
+        CourierSteps.checkResponseNegative(response, 400, "Недостаточно данных для входа");
     }
 
     @Test
     public void checkUnknownLogin() {
+        deleteIdAfterTest = false;
         courier = new CourierCreate()
                 .setLogin(randomString())
                 .setPassword(randomString());
         Response response = CourierSteps.postLogin(courier);
         CourierSteps.checkResponseNegative(response, 404, "Учетная запись не найдена");
-        deleteIdAfterTest = false;
     }
 
-
     @After
-    public void delete(){
+    public void delete() {
         if (deleteIdAfterTest) {
             newCoruers.delete(id);
         }

@@ -1,17 +1,11 @@
-import io.restassured.RestAssured;
+import annotations.BaseTest;
 import org.example.steps.OrderSteps;
-import org.junit.Before;
 import org.junit.Test;
 
-public class OrderListTest {
-
-    @Before
-    public void setUp() {
-        RestAssured.baseURI= "https://qa-scooter.praktikum-services.ru/";
-    }
+public class OrderListTest extends BaseTest {
 
     @Test
-    public void getOrderList(){
+    public void getOrderList() {
         OrderSteps.getOrderList();
     }
 }
